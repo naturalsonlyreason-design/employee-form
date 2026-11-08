@@ -1,6 +1,10 @@
 
-import React, { useState, useEffect } from "react";
+
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import EmployeeForm from "./Components/EmployeeForm";
+import EmployeeList from "./Components/EmployeeList";
+import EmployeeDetails from "./Components/EmployeeDetails";
 
 function App() {
   const [employees, setEmployees] = useState(() => {
@@ -20,18 +24,22 @@ function App() {
 
   return (
     <div>
-      <EmployeeForm addEmployee={addEmployee} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <EmployeeForm addEmployee={addEmployee} />
+              <EmployeeList employees={employees} />
+            </>
+          }
+        />
 
-      <h2>Employee List</h2>
-
-      {employees.map((employee, index) => (
-        <div key={index}>
-          <p>Name: {employee.name}</p>
-          <p>Email: {employee.email}</p>
-          <p>Department: {employee.department}</p>
-          <hr />
-        </div>
-      ))}
+        <Route
+          path="/employees/:id"
+          element={<EmployeeDetails employees={employees} />}
+        />
+      </Routes>
     </div>
   );
 }
